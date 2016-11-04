@@ -3,6 +3,9 @@ require('styles/App.scss');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ImgFigure from './imgFigure';
+import Controllerunit from './controllerunit';
+
 
 var imgDatas = require('../data/imgDatas.json');
 
@@ -19,91 +22,6 @@ var imgDatas = (function(imgDatasArr){
 
 })(imgDatas);
 
-//图片组件
-class ImgFigure extends React.Component {
-
-  //点击后反转正反面的函数
-  handleClick = function(e){
-
-        e.stopPropagation();
-    e.preventDefault();
-
-    if(this.props.imgsArrange.isCenter){
-     this.props.inverse();
-    }else{
-      this.props.center();
-    }
-
-  }
-
-  render() {
-
-    var styleObj = {};
-
-    styleObj  = this.props.imgsArrange.pos;
-
-    if(this.props.imgsArrange.rotate){
-      (['Moz','ms','Webkit','']).forEach(function(value){
-        styleObj[ value + 'Transform'] = 'rotate(' + this.props.imgsArrange.rotate +'deg)';
-      }.bind(this));
-    }
-
-    if(this.props.imgsArrange.isCenter){
-      styleObj.zIndex  = '11';
-    }
-
-    var imgFigureClassName = 'img-item';
-        imgFigureClassName += this.props.imgsArrange.isInverse ? ' inverse' :'';
-
-
-    return (
-      <figure className={imgFigureClassName}  style = {styleObj} onClick = {this.handleClick.bind(this)} >
-        <img className="img" src={this.props.data.imgURL}></img>
-        <figcaption>
-          <h2 className="img-title">{this.props.data.title}</h2>
-          <div className = "img-back" onClick = {this.handleClick.bind(this)} >
-            <p>
-              {this.props.data.desc}
-            </p>
-          </div>
-        </figcaption>
-      </figure>
-    );
-  }
-}
-
-//控制组件
-class Controllerunit extends React.Component {
-
-  //控制组件点击函数
-  handleClick(e){
-
-    if(this.props.imgsArrange.isCenter){
-      this.props.inverse();
-    }else{
-      this.props.center();
-    }
-
-    e.stopPropagation();
-    e.preventDefault();
-  }
-
-  render (){
-
-    var controllerunitClassName = 'controllerunit';
-
-    if(this.props.imgsArrange.isCenter){
-      controllerunitClassName += ' isCenter';
-
-      if(this.props.imgsArrange.isInverse){
-        controllerunitClassName += ' isInverse';
-      }
-    }
-    return (
-      <span className={controllerunitClassName} onClick={this.handleClick.bind(this)}></span>
-    );
-  }
-}
 
 //界面大管家，总组件
 class AppComponent extends React.Component {
@@ -246,8 +164,6 @@ class AppComponent extends React.Component {
 
   componentDidMount() {
 
-
-
      //拿到stage的大小
     var stageDOM = ReactDOM.findDOMNode(this.refs.stage),
         stageW = stageDOM.scrollWidth,
@@ -289,15 +205,12 @@ class AppComponent extends React.Component {
 
   }
 
-
-
-
   render() {
 
     var controllerunits = [],
         imgfigures = [];
 
-        //遍历图片
+      //遍历所有图片数据，生成子组件
     imgDatas.forEach(function(value,index){
 
       if(!this.state.imgsArrange[index]){
@@ -316,8 +229,6 @@ class AppComponent extends React.Component {
 
       controllerunits.push(<Controllerunit key={index} imgsArrange={this.state.imgsArrange[index]} inverse = {this.inverse(index)} center = {this.center(index)} />)
     }.bind(this));
-
-
 
     return (
       <section className="stage" ref="stage">
