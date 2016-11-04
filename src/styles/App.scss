@@ -1,4 +1,18 @@
 /* Base Application Styles */
+@font-face {
+  font-family: 'iconfont';
+  src: url('../font/icons/iconfont.eot');
+  src: url('../font/icons/iconfont.eot?#iefix') format('embedded-opentype'),
+  url('../font/icons/iconfont.woff') format('woff'),
+  url('../font/icons/iconfont.ttf') format('truetype'),
+  url('../font/icons/iconfont.svg#iconfont') format('svg');
+}
+
+*{
+  margin:0px;
+  padding: 0px;
+}
+
 html,body {
   width: 100%;
   height: 100%;
@@ -23,6 +37,64 @@ html,body {
   height: 100%;
   background-color: #ddd;
   overflow: hidden;
+
+  @at-root{
+    .img-item{
+      position: absolute;
+      width: 320px;
+      height: 360px;
+      margin: 0px;
+      padding: 40px;
+      background-color: #fff;
+      box-sizing: border-box;
+      float: left;
+      cursor: pointer;
+      border:2px solid orange;
+      transform:rotateY(0deg) translateZ(-1px);
+      box-shadow: 2px 2px 4px rgba(0,0,0,.4);
+      transform-origin: 0 50% 0;
+      transition:left .6s ease-in-out , top .6s ease-in-out ,transform 0.6s ease-in-out;
+
+      .img{
+        width: 240px;
+        height: 240px;
+      }
+
+      transform-style:preserve-3d;
+      perspective: 1800px;
+    }
+
+    .inverse{
+      transform:rotateY(180deg) translate(-320px);
+    }
+
+    figcaption{
+      text-align: center;
+
+      .img-title{
+        margin: 20px 0 0 0;
+        border-top:1px solid #222;
+        color: #222;
+        font-size: 16px;
+      }
+
+    }
+
+    .img-back{
+      transition: transform .6s ease-in-out;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      width:100%;
+      height:100%;
+      transform: rotateY(180deg) translateZ(1px);
+      box-sizing: border-box;
+      padding: 30px;
+      background-color: #fff;
+
+    }
+
+  }
 }
 
 .controller-nav{
@@ -32,4 +104,47 @@ html,body {
   text-align: center;
   width: 100%;
   z-index: 101;
+
+  @at-root{
+
+    .controllerunit{
+      display: inline-block;
+      width:30px;
+      height: 30px;
+      background-color: #aaa;
+      border-radius: 50%;
+      margin-left: 5px;
+      transform: scale(0.5);
+      vertical-align: middle;
+      text-align: center;
+      cursor: pointer;
+      transition: transform .6s ease-in-out , background-color .6s ease-in-out;
+
+      &.isCenter{
+        transform:scale(1);
+        background-color: #888;
+
+        &.isInverse{
+          background-color: #888;
+
+          transform: rotateY(180deg);
+        }
+
+        &::after{
+          display: block;
+          font-family:"iconfont";
+          color: #fff;
+          line-height: 30px;
+          transform: translate(0,-2px);
+
+          content: "\e600";
+
+          -webkit-font-smoothing:antialiased;
+          -moz-osx-font-smoothing:grayscale;
+        }
+      }
+
+
+    }
+  }
 }
